@@ -1,0 +1,55 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'https://repo.spring.io/snapshot' }
+        maven { url 'https://repo.spring.io/milestone' }
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.0.BUILD-SNAPSHOT'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+    maven { url 'http://repo.spring.io/plugins-release/' }
+}
+
+group 'pl.krug.spring.webflux.introduction'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+ext.junitPlatformVersion = '1.1.0'
+ext.junitJupiterVersion  = '5.1.0'
+ext.log4jVersion         = '2.9.0'
+
+dependencies {
+    // Inject annotations
+    compile 'javax.inject:javax.inject:1'
+
+    compile 'org.springframework.boot:spring-boot-devtools'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-webflux'
+
+    compile 'com.google.guava:guava:25.1-jre'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+
+    // JUnit Jupiter API and TestEngine implementation
+    testCompile "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
+
+    // To use Log4J's LogManager
+    testRuntime "org.apache.logging.log4j:log4j-core:${log4jVersion}"
+    testRuntime "org.apache.logging.log4j:log4j-jul:${log4jVersion}"
+
+    // Only needed to run tests in an (IntelliJ) IDE(A) that bundles an older version
+    testRuntime "org.junit.platform:junit-platform-launcher:${junitPlatformVersion}"
+}
